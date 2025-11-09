@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendations - BookRecs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <h1>BookRecs</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/recommend" class="nav-link active">Recommend</a>
+                <a href="#trending" class="nav-link">Trending</a>
+                <a href="#library" class="nav-link">My Library</a>
+            </nav>
+            <div class="user-icon">
+                <button class="icon-btn">👤</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Search Section -->
+        <section class="search-section">
+            <h2>Find Book Recommendations</h2>
+            <form method="POST" action="/recommend_books" class="search-form">
+                <div class="search-input-wrapper">
+                    <input 
+                        type="text" 
+                        name="user_input" 
+                        class="search-input" 
+                        placeholder="Enter a book title..." 
+                        required
+                    >
+                    <button type="submit" class="search-btn">Search</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        {% if data %}
+        <section class="results-section">
+            <h3>Related Books</h3>
+            <div class="books-grid">
+                {% for item in data %}
+                <div class="book-card">
+                    <div class="book-image-container">
+                        <img src="{{ item[2] }}" alt="{{ item[0] }}" class="book-image">
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">{{ item[0] }}</h3>
+                        <p class="book-author">{{ item[1] }}</p>
+                        <button class="add-to-library">+ Add to Library</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% else %}
+        <section class="empty-state">
+            <div class="empty-message">
+                <h3>Search for a book to get recommendations</h3>
+                <p>Enter a book title above to discover similar books you might enjoy</p>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 BookRecs. All rights reserved.</p>
+    </footer>
+</body>
+</html>
